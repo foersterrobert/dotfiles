@@ -192,6 +192,11 @@ screens = [
                     foreground = colors[2],
                     background = colors[0]
             ),
+            widget.PulseVolume(
+                    foreground = colors[1],
+                    background = colors[6],
+                    padding = 5,
+            ),
             widget.Clock(
                     foreground = colors[1],
                     background = colors[7],
