@@ -2,11 +2,13 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile import qtile
+import platform
 import os
 
 mod = "mod4"
 myTerm = "gnome-terminal"
 myBrowser = "brave-browser"
+device = platform.node()
 
 keys = [
     Key([mod], "Return", lazy.spawn(myTerm), desc="Launch terminal"),
@@ -108,102 +110,114 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+def get_widgets():
+    widgets = [
+        widget.Sep(
+            linewidth = 0,
+            padding = 6,
+            foreground = colors[2],
+            background = colors[0]
+        ),
+        widget.Image(
+            filename = "~/.config/qtile/icons/python-white.png",
+            scale = "False",
+        ),
+        widget.Sep(
+            linewidth = 0,
+            padding = 6,
+            foreground = colors[2],
+            background = colors[0]
+        ),
+        widget.GroupBox(
+                margin_y = 3,
+                margin_x = 0,
+                padding_y = 5,
+                padding_x = 5,
+                borderwidth = 3,
+                active = colors[2],
+                inactive = colors[7],
+                rounded = False,
+                highlight_color = colors[1],
+                highlight_method = "line",
+                this_current_screen_border = colors[6],
+                this_screen_border = colors [4],
+                other_current_screen_border = colors[6],
+                other_screen_border = colors[4],
+                foreground = colors[2],
+                background = colors[0],
+                fontsize = 10,
+                ),
+        widget.TextBox(
+                text = '|',
+                font = "Ubuntu Mono",
+                background = colors[0],
+                foreground = '474747',
+                padding = 2,
+                fontsize = 14
+                ),
+        widget.CurrentLayoutIcon(
+                custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
+                foreground = colors[2],
+                background = colors[0],
+                padding = 0,
+                scale = 0.7
+                ),
+        widget.CurrentLayout(
+                foreground = colors[2],
+                background = colors[0],
+                padding = 5
+                ),
+        widget.TextBox(
+                text = '|',
+                font = "Ubuntu Mono",
+                background = colors[0],
+                foreground = '474747',
+                padding = 2,
+                fontsize = 14
+                ),
+        widget.WindowName(
+                foreground = colors[6],
+                background = colors[0],
+                padding = 0
+                ),
+        widget.Systray(
+                background = colors[0],
+                padding = 6
+                ),
+        widget.Sep(
+                linewidth = 0,
+                padding = 6,
+                foreground = colors[2],
+                background = colors[0]
+        ),
+        widget.PulseVolume(
+                foreground = colors[1],
+                background = colors[6],
+                padding = 5,
+            ),
+        widget.Clock(
+            foreground = colors[1],
+            background = colors[7],
+            padding = 5,
+            format="%d.%m.%Y %a %I:%M %p"
+        )
+    ]
+    if device == 'robert':
+        widgets = widgets[:-2] + [widget.Battery(
+            foreground = colors[1],
+            background = colors[2],
+            padding = 4,
+            format = '{percent:2.0%}'
+        )] + widgets[-2:]
+        
+    return widgets
+
 screens = [
     Screen(
         wallpaper=os.path.expanduser("~/.config/qtile/wallpaper.jpg"),
         wallpaper_mode="stretch",
         top=bar.Bar(
-            widgets=[
-            widget.Sep(
-                linewidth = 0,
-                padding = 6,
-                foreground = colors[2],
-                background = colors[0]
-            ),
-            widget.Image(
-                    filename = "~/.config/qtile/icons/python-white.png",
-                    scale = "False",
-                    ),
-            widget.Sep(
-                    linewidth = 0,
-                    padding = 6,
-                    foreground = colors[2],
-                    background = colors[0]
-                    ),
-            widget.GroupBox(
-                    margin_y = 3,
-                    margin_x = 0,
-                    padding_y = 5,
-                    padding_x = 5,
-                    borderwidth = 3,
-                    active = colors[2],
-                    inactive = colors[7],
-                    rounded = False,
-                    highlight_color = colors[1],
-                    highlight_method = "line",
-                    this_current_screen_border = colors[6],
-                    this_screen_border = colors [4],
-                    other_current_screen_border = colors[6],
-                    other_screen_border = colors[4],
-                    foreground = colors[2],
-                    background = colors[0],
-                    fontsize = 10,
-                    ),
-            widget.TextBox(
-                    text = '|',
-                    font = "Ubuntu Mono",
-                    background = colors[0],
-                    foreground = '474747',
-                    padding = 2,
-                    fontsize = 14
-                    ),
-            widget.CurrentLayoutIcon(
-                    custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-                    foreground = colors[2],
-                    background = colors[0],
-                    padding = 0,
-                    scale = 0.7
-                    ),
-            widget.CurrentLayout(
-                    foreground = colors[2],
-                    background = colors[0],
-                    padding = 5
-                    ),
-            widget.TextBox(
-                    text = '|',
-                    font = "Ubuntu Mono",
-                    background = colors[0],
-                    foreground = '474747',
-                    padding = 2,
-                    fontsize = 14
-                    ),
-            widget.WindowName(
-                    foreground = colors[6],
-                    background = colors[0],
-                    padding = 0
-                    ),
-            widget.Systray(
-                    background = colors[0],
-                    padding = 6
-                    ),
-            widget.Sep(
-                    linewidth = 0,
-                    padding = 6,
-                    foreground = colors[2],
-                    background = colors[0]
-            ),
-            widget.PulseVolume(
-                    foreground = colors[1],
-                    background = colors[6],
-                    padding = 5,
-            ),
-            widget.Clock(
-                    foreground = colors[1],
-                    background = colors[7],
-                    padding = 5,
-                    format="%d.%m.%Y %a %I:%M %p"
-                    ),
-            ],
+            widgets=get_widgets(),
             opacity=1.0,
             size=22,
         ),
