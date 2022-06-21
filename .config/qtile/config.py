@@ -10,7 +10,7 @@ myBrowser = "brave-browser"
 
 keys = [
     Key([mod], "Return", lazy.spawn(myTerm), desc="Launch terminal"),
-    Key([mod, "shift"], "Return", lazy.spawn("dmenu_run -p 'Run: '"), desc='Run Launcher'),
+    Key([mod, "shift"], "Return", lazy.spawn("rofi -show drun"), desc='Run Launcher'),
     
     Key([mod], "c", lazy.spawn("code"), desc="Spawn code"),
     Key([mod], "b", lazy.spawn(myBrowser), desc="Spawn Brave"),
