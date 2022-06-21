@@ -51,9 +51,9 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
     # sound
-    Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -c 0 sset Master 1- unmute")),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -c 0 sset Master 1+ unmute")),
+    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute 0 toggle")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl -- set-sink-volume 0 -5%")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl -- set-sink-volume 0 +5%")),
 ]
 
 groups = [Group("1", label="CODE"), Group("2", label="WEB"), Group("3", label="TERM"), Group("4", label="FILES"), Group("5", label="OTHER")]
@@ -104,7 +104,7 @@ widget_defaults = dict(
     font="Ubuntu Bold",
     fontsize=12,
     padding=2,
-    background=colors[2]#"#231e20"
+    background="#231e20"
 )
 extension_defaults = widget_defaults.copy()
 
@@ -191,11 +191,6 @@ screens = [
                     padding = 6,
                     foreground = colors[2],
                     background = colors[0]
-            ),
-            widget.Volume(
-                foreground = colors[1],
-                background = colors[6],
-                padding = 5,
             ),
             widget.Clock(
                     foreground = colors[1],
