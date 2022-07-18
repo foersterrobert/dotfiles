@@ -136,5 +136,5 @@ unset __conda_setup
 # <<< conda initialize <<<
 # conda activate Robert
 alias config='/usr/bin/git --git-dir=/home/robert/dotfiles/ --work-tree=/home/robert'
-
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 export PATH="$HOME/.poetry/bin:$PATH"
